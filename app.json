@@ -4,33 +4,20 @@
     "slug": "tapco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "backgroundColor": "#0A0A0F"
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#0A0A0F"
-      },
       "package": "com.tapco.app",
       "permissions": [
         "android.permission.NFC",
         "android.permission.VIBRATE"
       ]
     },
-    "plugins": [
-      [
-        "react-native-nfc-manager",
-        {
-          "selectIdentifiers": [],
-          "systemCodes": []
-        }
-      ]
-    ],
     "extra": {
       "eas": {
-        "projectId": "f7f960e4-fc13-4667-bba7-2ff9afaf1a73"
+        "projectId": "TU-PROJECT-ID-AQUI"
       }
     }
   }
