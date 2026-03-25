@@ -1,37 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  View, Text, TouchableOpacity, StyleSheet, SafeAreaView,
-  StatusBar, Animated, Vibration, Alert, ScrollView,
-  TextInput, Modal, Platform
-} from 'react-native';
-
-// ─── NFC: usa expo-nfc si está disponible, si no → mock ───
-let NfcManager, NfcTech, Ndef;
-try {
-  const nfc = require('react-native-nfc-manager');
-  NfcManager = nfc.default;
-  NfcTech = nfc.NfcTech;
-  Ndef = nfc.Ndef;
-} catch (e) {
-  NfcManager = null;
-}
-
+import React from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text } from 'react-native';
 
 import CobrarScreen from './screens/CobrarScreen';
-import WalletScreen from './screens/WalletScreen';
-import CardScreen from './screens/CardScreen';
-import HistorialScreen from './screens/HistorialScreen';
+import { WalletScreen, CardScreen, HistorialScreen } from './screens/WalletCardHistScreen';
 
 const Tab = createBottomTabNavigator();
 
-// ─── GLOBAL STATE (simple, sin Redux) ─────────────────────
 export const AppState = {
   balance: 0,
   movements: [],
   cobros: [],
-  desc: '',
   addCobro: (amt, card, auth, desc) => {
     AppState.balance += amt;
     AppState.cobros.unshift({ amt, card, auth, desc, ts: new Date() });
@@ -54,12 +35,24 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
-          tabBarStyle: styles.tabBar,
+          tabBarStyle: {
+            backgroundColor: '#0A0A0F',
+            borderTopColor: 'rgba(255,255,255,0.07)',
+            borderTopWidth: 1,
+            paddingBottom: 8,
+            paddingTop: 6,
+            height: 68,
+          },
           tabBarActiveTintColor: '#00E5A0',
           tabBarInactiveTintColor: '#5A5A6E',
-          tabBarLabelStyle: styles.tabLabel,
+          tabBarLabelStyle: { fontSize: 10, fontWeight: '500' },
           tabBarIcon: ({ color }) => {
-            const icons = { Cobrar: '⬡', Billetera: '◈', Tarjeta: '◫', Historial: '≡' };
+            const icons = {
+              Cobrar: '⬡',
+              Billetera: '◈',
+              Tarjeta: '◫',
+              Historial: '≡'
+            };
             return <Text style={{ fontSize: 20, color }}>{icons[route.name]}</Text>;
           },
         })}
@@ -72,15 +65,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#0A0A0F',
-    borderTopColor: 'rgba(255,255,255,0.07)',
-    borderTopWidth: 1,
-    paddingBottom: 8,
-    paddingTop: 6,
-    height: 68,
-  },
-  tabLabel: { fontSize: 10, fontWeight: '500', marginTop: 2 },
-});
